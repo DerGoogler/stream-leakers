@@ -1,0 +1,79 @@
+.toolbar--material {
+  background-color: rgb(9, 9, 121);
+  background: linear-gradient(
+    180deg,
+    rgb(219, 110, 8) 0%,
+    rgb(241, 80, 5) 100%
+  );
+}
+
+.toolbar--material {
+  color: #fff;
+}
+
+.zmdi-settings:before {
+  content: "\f1c6";
+  color: #fff;
+}
+
+.zmdi-home:before {
+  content: "\f175";
+  color: #fff;
+}
+
+.zmdi-file:before {
+  color: #fff;
+  content: "\f223";
+}
+
+.tabbar__icon + .tabbar__label {
+  color: #fff;
+}
+
+.tabbar--material {
+  background-color: rgb(241, 80, 5);
+}
+
+.toolbar--material__center {
+  color: #fff;
+}
+
+.tabbar--material__border {
+  background-color: #fff;
+}
+
+ons-fab.fab--material,
+ons-speed-dial-item.fab--material,
+button.fab--material {
+  background-color: rgb(9, 9, 121);
+  background: linear-gradient(
+    180deg,
+    rgb(219, 110, 8) 0%,
+    rgb(241, 80, 5) 100%
+  );
+}
+
+.ons-icon2 {
+  color: #fff;
+}
+
+.button--material {
+  background-color: rgb(9, 9, 121);
+  background: linear-gradient(45deg, rgb(219, 110, 8) 0%, rgb(241, 80, 5) 100%);
+}
+
+.button--material:disabled,
+.button--material[disabled] {
+  transition: none;
+  box-shadow: none;
+  background-color: rgba(79, 79, 79, 0.26);
+  background-color: rgba(79, 79, 79, 0.26);
+  color: rgba(0, 0, 0, 0.26);
+  color: rgba(0, 0, 0, 0.26);
+  opacity: 0.1;
+}
+
+.search-input--material {
+  border-radius: 0px;
+  box-shadow: none;
+}
