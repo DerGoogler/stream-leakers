@@ -1,6 +1,6 @@
 const config = {
   title: "Stream Leakers",
-  baseUrl: "https://stream.wrench.gq",
+  baseUrl: "https://newdlstar.herokuapp.com",
 };
 
 export default config;
