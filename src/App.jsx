@@ -11,17 +11,13 @@ class App extends React.Component {
   };
 
   get = (url, callback) => {
-    axios
-      .get(
-        window.location.href.replace(/(\?(.*?)=(.*)|\?)/gm, "") + `/assets/stream-leakers/${url}`
-      )
-      .then((res) => {
-        const data = res.data;
-        const parse = yaml.load(data, { json: true });
-        if (typeof callback == "function") {
-          callback(parse);
-        }
-      });
+    axios.get(`/assets/stream-leakers/${url}`).then((res) => {
+      const data = res.data;
+      const parse = yaml.load(data, { json: true });
+      if (typeof callback == "function") {
+        callback(parse);
+      }
+    });
   };
 
   componentDidMount = () => {
