@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "js-yaml": "^4.1.0",
     "marked": "^2.0.1",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
@@ -31,6 +32,7 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.0",
     "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.5.3",
     "onsenui": "^2.11.2",
     "postcss-loader": "^5.2.0",
     "react-onsenui": "^1.11.3",

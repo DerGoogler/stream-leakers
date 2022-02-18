@@ -1,7 +1,11 @@
+# dist
+dist/*
+!dist/index.html
+!dist/assets
 
+# others
 .cache/
 coverage/
-dist/*
 assets/*
 node_modules/
 *.log

@@ -1,79 +1,125 @@
-import {
-  Page,
-  Toolbar,
-  Tabbar,
-  Tab,
-  SpeedDial,
-  Fab,
-  SpeedDialItem,
-  Icon,
-} from "react-onsenui";
+import { Page, Toolbar, Button, List, ListItem, SearchInput } from "react-onsenui";
 import React from "react";
-import { hot } from "react-hot-loader/root";
-import Start from "./views/Start";
-import About from "./views/About";
-import config from "./config";
-
-class PageContent extends React.Component {
-  render() {
-    return (
-      <Page>
-        <section>{this.props.content}</section>
-      </Page>
-    );
-  }
-}
+import axios from "axios";
+import VideoPlayer from "./views/VideoPlayer";
+import yaml from "js-yaml";
 
 class App extends React.Component {
-  renderToolbar() {
+  state = {
+    config: {},
+    video: [],
+  };
+
+  get = (url, callback) => {
+    axios
+      .get(
+        window.location.href.replace(/(\?(.*?)=(.*)|\?)/gm, "") + `/assets/stream-leakers/${url}`
+      )
+      .then((res) => {
+        const data = res.data;
+        const parse = yaml.load(data, { json: true });
+        if (typeof callback == "function") {
+          callback(parse);
+        }
+      });
+  };
+
+  componentDidMount = () => {
+    // Get all indexed videos
+    this.get("video.yaml", (parse) => {
+      this.setState({ video: parse });
+    });
+
+    // Configuration
+    this.get("config.yaml", (parse) => {
+      this.setState({ config: parse });
+    });
+  };
+
+  renderToolbar = () => {
     return (
       <Toolbar>
-        <div className="center">{config.title}</div>
+        <div className="center">Stream Leakers</div>
       </Toolbar>
     );
-  }
+  };
 
-  renderTabs() {
-    return [
-      {
-        content: <PageContent content={<Start />} />,
-        tab: <Tab label="Start" icon="md-home" />,
-      },
-      {
-        content: <PageContent content={<About />} />,
-        tab: <Tab label="Über" icon="md-settings" />,
-      },
-    ];
-  }
-
-  renderFixed() {
+  render = () => {
+    const { video, config } = this.state;
+    const { pushPage } = this.props;
     return (
-      <SpeedDial position="bottom right">
-        <Fab>
-          <Icon className="ons-icon2" icon="md-share" />
-        </Fab>
-        <SpeedDialItem
-          onClick={() => {
-            window.open("https://github.com/DerGoogler/stream-leakers");
-          }}
-        >
-          <Icon className="ons-icon2" icon="md-github" />
-        </SpeedDialItem>
-      </SpeedDial>
-    );
-  }
+      <Page renderToolbar={this.renderToolbar}>
+        <div>
+          <div>
+            <SearchInput
+              style={{ width: "100%" }}
+              placeholder="Suchen"
+              onChange={(event) => {
+                var input, filter, ul, li, a, i, txtValue;
+                input = event.target;
+                filter = input.value.toUpperCase();
+                ul = document.getElementById("sl");
+                li = ul.getElementsByTagName("ons-list-item");
+                for (i = 0; i < li.length; i++) {
+                  a = li[i].getElementsByTagName("span")[0];
+                  txtValue = a.textContent || a.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = "";
+                  } else {
+                    li[i].style.display = "none";
+                  }
+                }
+              }}
+            />
+          </div>
 
-  render() {
-    return (
-      <Page renderToolbar={this.renderToolbar} renderFixed={this.renderFixed}>
-        <Tabbar
-          swipeable={false}
-          position="auto"
-          renderTabs={this.renderTabs}
-        />
+          <div id="sl">
+            <List>
+              {video.map((p) => (
+                <>
+                  <ListItem expandable modifier="nodivider">
+                    <span>{p.title}</span>
+                    <div className="expandable-content">
+                      <Button
+                        style={{
+                          marginTop: "4px",
+                          marginBottom: "4px",
+                        }}
+                        modifier="large"
+                        onClick={() => {
+                          window.open(config.baseURL + p.link);
+                        }}
+                        disabled={true}
+                      >
+                        Download Video
+                      </Button>
+                      <Button
+                        style={{
+                          marginTop: "4px",
+                          marginBottom: "4px",
+                        }}
+                        modifier="large"
+                        onClick={() => {
+                          pushPage({
+                            component: VideoPlayer,
+                            key: "player",
+                            src: config.baseURL + p.link,
+                            title: p.title,
+                          });
+                        }}
+                      >
+                        Play Video
+                      </Button>
+                    </div>
+                  </ListItem>
+                </>
+              ))}
+            </List>
+          </div>
+        </div>
       </Page>
     );
-  }
+  };
 }
 
-export default hot(App);
+export default App;
